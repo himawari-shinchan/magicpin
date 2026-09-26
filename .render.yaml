@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: magicpin-api
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn bot:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: REDIS_URL
+        value: redis://redis:6379/0
+      - key: USE_INMEMORY_STORE
+        value: "false"
+
