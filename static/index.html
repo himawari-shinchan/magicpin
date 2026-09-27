@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff8fa">
+  <meta name="description" content="Vera is a context-grounded merchant assistant built for the Magicpin AI challenge.">
+  <title>Vera — Merchant intelligence, made thoughtful</title>
+  <style>
+    :root{--ink:#28121d;--muted:#766873;--line:#f0e4e9;--paper:#fff;--canvas:#fff8fa;--navy:#351322;--blue:#f04b83;--blue2:#d91c5c;--mint:#ffb5cd;--amber:#ffd58c;--green:#168a63;--pink:#ed2865;--pink-deep:#cb1450;--pink-soft:#fff0f5;--shadow:0 24px 70px rgba(83,23,48,.09);--radius:22px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--canvas);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}a{color:inherit;text-decoration:none}button,select{font:inherit}button{cursor:pointer}::selection{background:#ffd4e2}
+    .shell{max-width:1180px;margin:auto;padding:0 28px}.topbar{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(226,230,239,.85)}.brand{display:flex;align-items:center;gap:11px;font-weight:760;letter-spacing:-.04em;font-size:20px}.brand-mark{height:36px;width:36px;border-radius:12px;background:linear-gradient(145deg,#fb5790,#dc1e5b);display:grid;place-items:center;color:white;box-shadow:0 8px 18px #ed286535}.brand small{display:block;font-size:9px;letter-spacing:.15em;color:#8b95a9;font-weight:750;margin-top:-2px}.nav{display:flex;align-items:center;gap:27px;color:#707b90;font-size:13px;font-weight:600}.nav a:hover{color:#cb1450}.nav-right{display:flex;align-items:center;gap:14px}.status-pill{display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--line);background:#fff;border-radius:30px;font-size:11px;font-weight:680;color:#526078}.dot{width:7px;height:7px;border-radius:50%;background:#c3c9d5}.dot.live{background:#2ebc87;box-shadow:0 0 0 4px #2ebc871b}.dot.down{background:#e26666;box-shadow:0 0 0 4px #e266661b}.icon-link{height:37px;width:37px;border:1px solid var(--line);border-radius:12px;background:white;display:grid;place-items:center;color:#637087}.icon-link:hover{border-color:#f7bfd0;color:var(--blue2)}
+    .hero{margin:27px 0 22px;min-height:378px;position:relative;overflow:hidden;border-radius:30px;background:linear-gradient(113deg,#351322 0%,#6d1838 57%,#b11c50 100%);color:#fff;padding:50px 54px;display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:25px;box-shadow:0 24px 60px #1e2b4a21}.hero:before,.hero:after{content:"";position:absolute;pointer-events:none;border-radius:50%;filter:blur(1px)}.hero:before{width:440px;height:440px;right:-70px;top:-230px;background:radial-gradient(circle,#ff74a54d,transparent 68%)}.hero:after{width:380px;height:380px;right:250px;bottom:-290px;background:radial-gradient(circle,#ff82b52d,transparent 70%)}.hero-copy,.hero-art{position:relative;z-index:1}.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border:1px solid #ffffff27;background:#ffffff0c;border-radius:30px;color:#ffe0ea;font-size:10px;text-transform:uppercase;letter-spacing:.11em;font-weight:750}.eyebrow i{width:6px;height:6px;border-radius:50%;background:var(--mint)}h1{font-size:clamp(38px,4.2vw,57px);line-height:1.05;letter-spacing:-.055em;margin:19px 0 15px;max-width:550px}.hero-copy p{margin:0;color:#b8c2d8;max-width:465px;font-size:15px;line-height:1.75}.hero-actions{display:flex;gap:11px;margin-top:28px;flex-wrap:wrap}.btn{border:0;border-radius:12px;padding:12px 16px;font-size:12px;font-weight:720;display:inline-flex;gap:9px;align-items:center;justify-content:center;transition:transform .18s,box-shadow .18s}.btn:hover{transform:translateY(-2px)}.btn-primary{background:var(--mint);color:#14283a;box-shadow:0 10px 25px #84e3c025}.btn-secondary{border:1px solid #ffffff30;background:#ffffff0a;color:#f2f4ff}.hero-note{font-size:10px;color:#94a1bc;margin-top:14px}.hero-art{min-height:266px;display:grid;place-items:center}.orb{position:absolute;width:262px;height:262px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe1ec 0,#ff8ab4 36%,#ed2865 67%,#a91349 100%);opacity:.84;filter:blur(.1px);box-shadow:0 0 100px #ff579037}.orb:after{content:"";position:absolute;inset:14px;border:1px solid #ffffff37;border-radius:50%}.float-card{position:absolute;background:#fff;color:var(--ink);border:1px solid #ffffff70;box-shadow:0 18px 45px #060b1d48;border-radius:16px;padding:14px 15px}.float-top{top:15px;right:6px;width:210px}.float-bottom{bottom:11px;left:0;width:220px}.micro{font-size:9px;color:#8a94a8;text-transform:uppercase;letter-spacing:.11em;font-weight:750}.float-title{font-size:12px;font-weight:730;margin:6px 0 4px}.float-desc{font-size:10px;color:#748098;line-height:1.5}.spark{color:#e32261}
+    .section-label{display:flex;justify-content:space-between;align-items:end;margin:38px 0 14px}.section-label h2{font-size:19px;letter-spacing:-.035em;margin:0}.section-label p{font-size:11px;color:var(--muted);margin:4px 0 0}.live-caption{font-size:10px;color:#8791a5;display:flex;align-items:center;gap:7px}.grid-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.stat{background:var(--paper);border:1px solid var(--line);border-radius:17px;padding:19px 20px;box-shadow:0 4px 18px #24345605}.stat-head{display:flex;align-items:center;justify-content:space-between;color:#78849a;font-size:11px;font-weight:620}.stat-icon{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:#fff0f5;color:#d91c5c}.stat:nth-child(2) .stat-icon{background:#e8f8f1;color:#1c9c70}.stat:nth-child(3) .stat-icon{background:#fff4e5;color:#d28b2d}.stat:nth-child(4) .stat-icon{background:#fff0f5;color:#cb1450}.stat-value{font-size:29px;letter-spacing:-.05em;font-weight:740;margin-top:11px}.stat-foot{font-size:10px;color:#9aa3b4;margin-top:2px}
+    .workspace{display:grid;grid-template-columns:.88fr 1.12fr;gap:16px;margin-top:15px;scroll-margin-top:25px}.panel{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 8px 28px #23345707}.panel-head{padding:21px 23px 0;display:flex;justify-content:space-between;gap:15px;align-items:flex-start}.panel-title{font-size:15px;font-weight:750;letter-spacing:-.025em}.panel-sub{color:#8a95a8;font-size:11px;margin-top:4px}.tag{padding:6px 9px;border-radius:30px;background:#fff0f5;color:#cb1450;font-size:9px;font-weight:760;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}.form-body{padding:21px 23px 23px}.field{margin-bottom:17px}.field label{display:block;font-size:10px;font-weight:730;color:#5e6a80;margin-bottom:7px}.select-wrap{position:relative}.select-wrap:after{content:"⌄";position:absolute;right:13px;top:8px;color:#8792a7;pointer-events:none}.field select{appearance:none;width:100%;height:43px;border:1px solid #e4e8f0;border-radius:11px;background:#fff;padding:0 36px 0 12px;color:#26314a;font-size:12px;outline:none}.field select:focus{border-color:#f04b83;box-shadow:0 0 0 3px #ed286520}.field-hint{font-size:9px;color:#98a1b1;margin-top:6px}.form-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:5px}.privacy{font-size:9px;color:#9aa3b2;display:flex;gap:6px;align-items:center}.privacy svg{color:#168a63}.preview-btn{background:#e32261;color:#fff;padding:11px 15px}.preview-btn:disabled{opacity:.62;cursor:wait;transform:none}.result-panel{min-height:390px;overflow:hidden}.result-panel .panel-head{align-items:center}.result-body{padding:18px 23px 23px}.message-card{background:linear-gradient(140deg,#fff4f7,#fffafd);border:1px solid #f5dce5;border-radius:16px;padding:19px 20px;min-height:145px;position:relative}.message-card:before{content:"“";position:absolute;right:16px;top:-5px;font-family:Georgia,serif;font-size:62px;color:#f9d9e4}.message-label{font-size:9px;color:#858fa4;text-transform:uppercase;font-weight:740;letter-spacing:.12em}.message-text{font-size:14px;line-height:1.75;color:#28334b;margin:12px 24px 0 0;position:relative}.message-empty{color:#a0a8b8;font-size:12px;line-height:1.7}.result-meta{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0 16px}.chip{border:1px solid #e9ebf1;border-radius:30px;padding:5px 9px;font-size:9px;color:#68748a;background:#fff}.reason{border-top:1px solid #eef0f4;padding-top:14px}.reason-title{font-size:9px;text-transform:uppercase;letter-spacing:.1em;font-weight:750;color:#8993a7}.reason-text{font-size:11px;line-height:1.65;color:#626e84;margin-top:5px}.loading{display:inline-block;width:12px;height:12px;border:2px solid #ffffff65;border-top-color:white;border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+    .architecture{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:46px}.layer{background:#fff;border:1px solid var(--line);border-radius:15px;padding:17px;position:relative}.layer-num{font-size:9px;font-weight:800;color:#d91c5c;letter-spacing:.1em}.layer h3{font-size:12px;margin:9px 0 5px;letter-spacing:-.02em}.layer p{font-size:10px;color:#7f8a9e;line-height:1.6;margin:0}.endpoint-list{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.endpoint{font-family:ui-monospace,Consolas,monospace;font-size:10px;border:1px solid var(--line);background:white;border-radius:8px;padding:7px 9px;color:#59657c}.endpoint b{color:#d91c5c;font-weight:800;margin-right:5px}.footer{padding:22px 0 33px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;color:#929caf;font-size:10px}.footer strong{color:#59657c}.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,15px);opacity:0;pointer-events:none;background:#15213a;color:white;border-radius:12px;padding:11px 16px;font-size:11px;box-shadow:var(--shadow);transition:.2s;z-index:5}.toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:850px){.shell{padding:0 18px}.hero{padding:38px 35px;grid-template-columns:1fr .75fr}.hero-art{transform:scale(.83)}.workspace{grid-template-columns:1fr}.architecture{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:600px){.topbar{height:65px}.nav{display:none}.status-pill{padding:7px 9px}.hero{padding:31px 24px 24px;grid-template-columns:1fr;min-height:unset;margin-top:17px}.hero h1{font-size:41px}.hero-art{min-height:210px;transform:scale(.8);margin-top:-3px}.float-top{right:4px}.float-bottom{left:3px}.grid-stats{grid-template-columns:repeat(2,1fr);gap:9px}.stat{padding:14px}.stat-value{font-size:25px}.section-label{align-items:start;gap:10px}.live-caption{font-size:9px}.workspace{margin-top:10px}.panel-head,.form-body,.result-body{padding-left:17px;padding-right:17px}.architecture{gap:9px}.layer{padding:13px}.layer h3{font-size:11px}.footer{flex-direction:column}.icon-link{height:34px;width:34px}}
+    @media(max-width:420px){.shell{padding:0 14px}.topbar{gap:8px}.brand{font-size:18px;gap:8px}.brand-mark{width:33px;height:33px}.nav-right{gap:8px}.status-pill{font-size:10px;padding:7px 9px}.hero{padding:28px 20px 20px;border-radius:23px}.hero h1{font-size:clamp(34px,10vw,39px)}.hero-copy p{font-size:14px}.hero-art{width:100%;max-width:330px;min-height:205px;transform:none;margin-top:0}.orb{width:195px;height:195px}.float-card{padding:11px 12px}.float-top{width:min(190px,calc(50vw - 18px));right:0}.float-bottom{width:min(198px,calc(50vw - 10px));left:0}.float-title{font-size:11px}.float-desc{font-size:9px}.hero-actions .btn{padding:11px 12px;font-size:11px}.grid-stats{gap:8px}.stat{padding:12px 11px}.stat-head{font-size:10px}.stat-icon{width:27px;height:27px}.stat-foot{font-size:9px}.section-label{display:grid;gap:7px}.live-caption{font-size:9px}.panel-head{gap:9px;padding-top:17px}.panel-title{font-size:14px}.panel-sub{font-size:10px}.tag{font-size:8px;padding:6px 8px}.form-foot{align-items:stretch;flex-direction:column}.preview-btn{width:100%;min-height:44px}.message-card{padding:16px 15px}.message-text{font-size:13px}.architecture{grid-template-columns:repeat(2,minmax(0,1fr))}.layer{padding:12px}.endpoint{font-size:9px}.footer{font-size:9px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Vera home">
+        <span class="brand-mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 7.5 10.5 18h3L19 7.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M16.5 7.5h2.7" stroke="#A8F0D5" stroke-width="2.5" stroke-linecap="round"/></svg></span>
+        <span>vera<small>MAGICPIN · AI CHALLENGE</small></span>
+      </a>
+      <nav class="nav" aria-label="Main navigation"><a href="#overview">Overview</a><a href="#playground">Preview lab</a><a href="#architecture">How it works</a></nav>
+      <div class="nav-right"><span class="status-pill"><i class="dot" id="statusDot"></i><span id="statusText">Connecting</span></span><a class="icon-link" href="/docs" target="_blank" rel="noopener" aria-label="Open API documentation" title="API docs"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14 3h7v7M10 14 21 3M19 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <span class="eyebrow"><i></i> Merchant intelligence, made thoughtful</span>
+          <h1 id="hero-title">The right message.<br>At the right moment.</h1>
+          <p>Vera helps local businesses act on real signals with grounded, personal conversations—not another generic promotion.</p>
+          <div class="hero-actions"><a class="btn btn-primary" href="#playground">Try the preview lab <span aria-hidden="true">↗</span></a><a class="btn btn-secondary" href="/docs" target="_blank" rel="noopener">Explore the API</a></div>
+          <div class="hero-note">Deterministic composition · Context-aware decisions · Built for the Magicpin AI challenge</div>
+        </div>
+        <div class="hero-art" aria-hidden="true"><div class="orb"></div><div class="float-card float-top"><div class="micro">A useful signal</div><div class="float-title">Specific beats generic <span class="spark">✳</span></div><div class="float-desc">A real source, a real business context, one clear next step.</div></div><div class="float-card float-bottom"><div class="micro">Conversation quality</div><div class="float-title">Human intent, recognized</div><div class="float-desc">Auto-replies, opt-outs and “let’s do it” each get the right response.</div></div></div>
+      </section>
+
+      <section id="overview" aria-labelledby="overview-title">
+        <div class="section-label"><div><h2 id="overview-title">Your bot, at a glance</h2><p>Live service status from the running API.</p></div><div class="live-caption"><i class="dot" id="refreshDot"></i><span id="lastUpdated">Checking service…</span></div></div>
+        <div class="grid-stats">
+          <article class="stat"><div class="stat-head">Category contexts <span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21V5.5ZM4 17a2.5 2.5 0 0 1 2.5-2.5H20" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span></div><div class="stat-value" id="categoryCount">—</div><div class="stat-foot">Vertical playbooks loaded</div></article>
+          <article class="stat"><div class="stat-head">Merchants <span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M16 20v-1.5a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4V20M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM22 20v-1.5a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span></div><div class="stat-value" id="merchantCount">—</div><div class="stat-foot">Business profiles in memory</div></article>
+          <article class="stat"><div class="stat-head">Customers <span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 21s-8-4.5-8-11a4.5 4.5 0 0 1 8-2.9A4.5 4.5 0 0 1 20 10c0 6.5-8 11-8 11Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span></div><div class="stat-value" id="customerCount">—</div><div class="stat-foot">Consent-aware profiles in memory</div></article>
+          <article class="stat"><div class="stat-head">Triggers <span class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 3 3.5 18h17L12 3ZM12 9v4M12 16.5v.01" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div><div class="stat-value" id="triggerCount">—</div><div class="stat-foot">Events ready for prioritization</div></article>
+        </div>
+      </section>
+
+      <section class="workspace" id="playground" aria-labelledby="play-title">
+        <div class="panel">
+          <div class="panel-head"><div><div class="panel-title" id="play-title">Message preview lab</div><div class="panel-sub">Try a synthetic challenge scenario through the actual composer.</div></div><span class="tag">No state changed</span></div>
+          <div class="form-body">
+            <div class="field"><label for="scenario">Choose a scenario</label><div class="select-wrap"><select id="scenario"><option value="research">Research note · Dentist</option><option value="performance">Calls dip · Dentist</option><option value="curiosity">Curious check-in · Salon</option><option value="feedback">Review theme · Restaurant</option><option value="recall">Recall reminder · Customer</option></select></div><div class="field-hint" id="scenarioHint">Source-cited category knowledge for a high-risk patient segment.</div></div>
+            <div class="field"><label>What the composer receives</label><div class="result-meta" id="contextChips"><span class="chip">Category context</span><span class="chip">Merchant signals</span><span class="chip">Trigger payload</span></div><div class="field-hint">The preview uses real challenge seed examples. It does not write to the live context store.</div></div>
+            <div class="form-foot"><div class="privacy"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m9 12 2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Local deterministic preview</div><button class="btn preview-btn" id="previewButton" type="button">Generate preview <span aria-hidden="true">→</span></button></div>
+          </div>
+        </div>
+        <div class="panel result-panel" aria-live="polite">
+          <div class="panel-head"><div><div class="panel-title">Composer output</div><div class="panel-sub" id="outputMeta">A sample message will appear here.</div></div><span class="tag" id="outputTag">Preview</span></div>
+          <div class="result-body"><div class="message-card"><div class="message-label">WhatsApp message</div><div class="message-text message-empty" id="messageText">Choose a scenario and generate a preview to see how Vera turns verified context into one clear, merchant-friendly message.</div></div><div class="result-meta" id="outputChips"><span class="chip">Single primary ask</span><span class="chip">Facts from context</span></div><div class="reason"><div class="reason-title">Why this message</div><div class="reason-text" id="rationaleText">The preview shows the deterministic composer’s rationale alongside its message.</div></div></div>
+        </div>
+      </section>
+
+      <section id="architecture" aria-labelledby="architecture-title">
+        <div class="section-label"><div><h2 id="architecture-title">Designed around better decisions</h2><p>Four context layers feed a small, explainable response loop.</p></div></div>
+        <div class="architecture">
+          <article class="layer"><div class="layer-num">01 · KNOWLEDGE</div><h3>Category context</h3><p>Voice, peer benchmarks, offers and source-attributed category updates.</p></article>
+          <article class="layer"><div class="layer-num">02 · BUSINESS</div><h3>Merchant context</h3><p>Real identity, performance, active offers, reviews and recent signals.</p></article>
+          <article class="layer"><div class="layer-num">03 · MOMENT</div><h3>Trigger & customer</h3><p>Prioritized events, with customer details only when the scenario needs them.</p></article>
+          <article class="layer"><div class="layer-num">04 · RESPONSE</div><h3>Compose & respond</h3><p>Grounded message templates, restraint, deduplication and a reply state machine.</p></article>
+        </div>
+      </section>
+
+      <section aria-labelledby="api-title"><div class="section-label"><div><h2 id="api-title">Built for the challenge API</h2><p>Inspect schemas or call the service directly.</p></div></div><div class="endpoint-list"><a class="endpoint" href="/docs" target="_blank" rel="noopener"><b>GET</b>/v1/healthz</a><a class="endpoint" href="/docs" target="_blank" rel="noopener"><b>GET</b>/v1/metadata</a><a class="endpoint" href="/docs" target="_blank" rel="noopener"><b>POST</b>/v1/context</a><a class="endpoint" href="/docs" target="_blank" rel="noopener"><b>POST</b>/v1/tick</a><a class="endpoint" href="/docs" target="_blank" rel="noopener"><b>POST</b>/v1/reply</a><a class="endpoint" href="/docs" target="_blank" rel="noopener"><b>POST</b>/v1/preview</a></div></section>
+    </main>
+    <footer class="footer"><span><strong>Vera</strong> · Magicpin AI challenge build</span><span>Grounded in context. Thoughtful by design.</span></footer>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const scenarios = {
+      research: {
+        hint: "A source-cited research update matched to the merchant’s clinical context.",
+        chips: ["Dentists · peer clinical", "Merchant: Dr. Meera", "Trigger: research digest"],
+        category: {slug:"dentists",display_name:"Dentists",voice:{tone:"peer_clinical",register:"respectful_collegial"},digest:[{id:"d_2026W17_jida_fluoride",kind:"research",title:"3-month fluoride varnish recall outperforms 6-month for high-risk adult caries",source:"JIDA Oct 2026, p.14",trial_n:2100,patient_segment:"high_risk_adults",summary:"Multi-center Indian trial shows 38% lower caries recurrence with 3-month vs 6-month recall in adults with active decay history. No effect in low-risk patients.",actionable:"Reassess recall interval for adults flagged high-risk in your charting"}]},
+        merchant:{merchant_id:"m_001_drmeera_dentist_delhi",category_slug:"dentists",identity:{name:"Dr. Meera's Dental Clinic",owner_first_name:"Meera",city:"Delhi",locality:"Lajpat Nagar",languages:["en","hi"]},subscription:{status:"active",plan:"Pro",days_remaining:82},performance:{window_days:30,views:2410,calls:18,directions:45,ctr:0.021,leads:9,delta_7d:{views_pct:0.18,calls_pct:-0.05,ctr_pct:0.02}},offers:[{id:"o_meera_001",title:"Dental Cleaning @ ₹299",status:"active"}],customer_aggregate:{total_unique_ytd:540,lapsed_180d_plus:78,retention_6mo_pct:0.38,high_risk_adult_count:124},signals:["stale_posts:22d","ctr_below_peer_median","high_risk_adult_cohort"]},
+        trigger:{id:"demo_research_digest",scope:"merchant",kind:"research_digest",source:"external",merchant_id:"m_001_drmeera_dentist_delhi",payload:{category:"dentists",top_item_id:"d_2026W17_jida_fluoride"},urgency:2,suppression_key:"demo:research:dentists",expires_at:"2026-12-31T23:59:59Z"}
+      },
+      performance: {
+        hint: "A meaningful performance decline, expressed with the supplied number and time window.",
+        chips: ["Dentists · peer clinical", "Merchant: Bharat Dental Care", "Trigger: performance dip"],
+        category: {slug:"dentists",display_name:"Dentists",voice:{tone:"peer_clinical",register:"respectful_collegial"},peer_stats:{scope:"metro_solo_practices_2026",avg_ctr:0.03}},
+        merchant:{merchant_id:"m_002_bharat_dentist_mumbai",category_slug:"dentists",identity:{name:"Bharat Dental Care",owner_first_name:"Bharat",city:"Mumbai",locality:"Andheri West",languages:["en","hi","mr"]},subscription:{status:"active",plan:"Pro",days_remaining:12},performance:{window_days:30,views:980,calls:4,directions:18,ctr:0.018,leads:2,delta_7d:{views_pct:-0.22,calls_pct:-0.5,ctr_pct:-0.1}},signals:["renewal_due_soon:12d","perf_dip_severe","unverified_gbp"]},
+        trigger:{id:"demo_perf_dip",scope:"merchant",kind:"perf_dip",source:"internal",merchant_id:"m_002_bharat_dentist_mumbai",payload:{metric:"calls",delta_pct:-0.5,window:"7d",vs_baseline:12},urgency:4,suppression_key:"demo:perf_dip:bharat",expires_at:"2026-12-31T23:59:59Z"}
+      },
+      curiosity: {
+        hint: "A direct question invites useful merchant knowledge instead of pushing a promotion.",
+        chips: ["Salons · warm, practical", "Merchant: Studio11", "Trigger: curious check-in"],
+        category:{slug:"salons",display_name:"Salons & Beauty",voice:{tone:"warm_practical",register:"friendly_practical"}},
+        merchant:{merchant_id:"m_003_studio11_salon_hyderabad",category_slug:"salons",identity:{name:"Studio11 Family Salon",owner_first_name:"Lakshmi",city:"Hyderabad",locality:"Kapra",languages:["en","hi","te"]},performance:{window_days:30,views:4980,calls:62,directions:142,ctr:0.048,leads:38,delta_7d:{views_pct:0.14,calls_pct:0.2,ctr_pct:0.05}},offers:[{id:"o_studio11_001",title:"Haircut @ ₹99",status:"active"}],signals:["high_engagement","above_peer_median_calls"]},
+        trigger:{id:"demo_curious_ask",scope:"merchant",kind:"curious_ask_due",source:"internal",merchant_id:"m_003_studio11_salon_hyderabad",payload:{ask_template:"what_service_in_demand_this_week",last_ask_at:null},urgency:1,suppression_key:"demo:curious:studio11",expires_at:"2026-12-31T23:59:59Z"}
+      },
+      feedback: {
+        hint: "A real review theme and quote make feedback actionable without inventing a cause.",
+        chips: ["Restaurants · operator tone", "Merchant: SK Pizza Junction", "Trigger: review theme"],
+        category:{slug:"restaurants",display_name:"Restaurants & Cafes",voice:{tone:"warm_busy_practical",register:"operator_to_operator"}},
+        merchant:{merchant_id:"m_005_pizzajunction_restaurant_delhi",category_slug:"restaurants",identity:{name:"SK Pizza Junction",owner_first_name:"Suresh",city:"Delhi",locality:"Sant Nagar",languages:["en","hi"]},performance:{window_days:30,views:2200,calls:12,directions:38,ctr:0.02,leads:4},offers:[{id:"o_skpz_001",title:"Buy 1 Pizza Get 1 Free (Tue-Thu)",status:"active"},],review_themes:[{theme:"delivery_late",sentiment:"neg",occurrences_30d:4,common_quote:"took 50 mins for a 15 min ride"}]},
+        trigger:{id:"demo_review_theme",scope:"merchant",kind:"review_theme_emerged",source:"internal",merchant_id:"m_005_pizzajunction_restaurant_delhi",payload:{theme:"delivery_late",occurrences_30d:4,trend:"rising",common_quote:"took 50 mins for a 15 min ride"},urgency:3,suppression_key:"demo:review:late_delivery",expires_at:"2026-12-31T23:59:59Z"}
+      },
+      recall: {
+        hint: "A customer reminder uses the supplied service and appointment options.",
+        chips: ["Dentists · customer-facing", "Customer: Priya", "Trigger: recall due"],
+        category:{slug:"dentists",display_name:"Dentists",voice:{tone:"peer_clinical",register:"respectful_collegial"}},
+        merchant:{merchant_id:"m_001_drmeera_dentist_delhi",category_slug:"dentists",identity:{name:"Dr. Meera's Dental Clinic",owner_first_name:"Meera",city:"Delhi",locality:"Lajpat Nagar",languages:["en","hi"]}},
+        trigger:{id:"demo_recall_due",scope:"customer",kind:"recall_due",source:"internal",merchant_id:"m_001_drmeera_dentist_delhi",customer_id:"c_001_priya_for_m001",payload:{service_due:"6_month_cleaning",last_service_date:"2026-05-12",due_date:"2026-11-12",available_slots:[{iso:"2026-11-05T18:00:00+05:30",label:"Wed 5 Nov, 6pm"},{iso:"2026-11-06T17:00:00+05:30",label:"Thu 6 Nov, 5pm"}]},urgency:3,suppression_key:"demo:recall:priya",expires_at:"2026-12-31T23:59:59Z"},
+        customer:{customer_id:"c_001_priya_for_m001",merchant_id:"m_001_drmeera_dentist_delhi",identity:{name:"Priya",language_pref:"hi-en mix"},relationship:{first_visit:"2025-11-04",last_visit:"2026-05-12",visits_total:4,services_received:["cleaning","cleaning","whitening","cleaning"]},state:"lapsed_soft",preferences:{preferred_slots:"weekday_evening",channel:"whatsapp",reminder_opt_in:true},consent:{opted_in_at:"2025-11-04",scope:["recall_reminders","appointment_reminders"]}}
+      }
+    };
+    const count = (v) => new Intl.NumberFormat().format(v || 0);
+    const showToast = (text) => { const t=$("toast"); t.textContent=text; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),2600); };
+    async function refreshHealth(){
+      const dot=$("statusDot"), refresh=$("refreshDot");
+      try {
+        const response=await fetch("/v1/healthz",{cache:"no-store"});
+        if(!response.ok) throw new Error("API returned "+response.status);
+        const data=await response.json(), loaded=data.contexts_loaded||{};
+        $("categoryCount").textContent=count(loaded.category); $("merchantCount").textContent=count(loaded.merchant); $("customerCount").textContent=count(loaded.customer); $("triggerCount").textContent=count(loaded.trigger);
+        dot.className="dot live"; refresh.className="dot live"; $("statusText").textContent="API online";
+        const d=new Date(); $("lastUpdated").textContent="Updated "+d.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})+" · uptime "+Math.floor((data.uptime_seconds||0)/60)+"m";
+      } catch(error) {
+        dot.className="dot down"; refresh.className="dot down"; $("statusText").textContent="API unavailable"; $("lastUpdated").textContent="Could not refresh status";
+        ["categoryCount","merchantCount","customerCount","triggerCount"].forEach(id=>$(id).textContent="—");
+      }
+    }
+    function selected(){return scenarios[$("scenario").value];}
+    function updateScenario(){
+      const s=selected(); $("scenarioHint").textContent=s.hint;
+      $("contextChips").innerHTML=s.chips.map(x=>`<span class="chip">${x}</span>`).join("");
+      $("messageText").className="message-text message-empty"; $("messageText").textContent="Choose “Generate preview” to compose this scenario.";
+      $("outputMeta").textContent="Ready · synthetic challenge data"; $("outputTag").textContent="Preview";
+      $("outputChips").innerHTML='<span class="chip">Single primary ask</span><span class="chip">Facts from context</span>';
+      $("rationaleText").textContent="The preview shows the deterministic composer’s rationale alongside its message.";
+    }
+    async function generatePreview(){
+      const btn=$("previewButton"), original=btn.innerHTML; btn.disabled=true; btn.innerHTML='<span class="loading"></span> Composing…';
+      try {
+        const response=await fetch("/v1/preview",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(selected())});
+        const data=await response.json(); if(!response.ok) throw new Error(data.detail||"Preview request failed");
+        $("messageText").className="message-text"; $("messageText").textContent=data.body;
+        $("outputMeta").textContent=(data.send_as==="merchant_on_behalf"?"Customer-facing":"Merchant-facing")+" · "+selected().trigger.kind.replaceAll("_"," ");
+        $("outputTag").textContent=data.preview_only?"No state changed":"Preview";
+        $("outputChips").innerHTML=`<span class="chip">CTA · ${data.cta}</span><span class="chip">Send as · ${data.send_as.replaceAll("_"," ")}</span><span class="chip">Trigger · ${selected().trigger.kind.replaceAll("_"," ")}</span>`;
+        $("rationaleText").textContent=data.rationale; showToast("Preview generated from the selected context.");
+      } catch(error) { showToast("Preview failed: "+error.message); }
+      finally {btn.disabled=false;btn.innerHTML=original;}
+    }
+    $("scenario").addEventListener("change",updateScenario); $("previewButton").addEventListener("click",generatePreview);
+    refreshHealth(); setInterval(refreshHealth,30000);
+  </script>
+</body>
+</html>

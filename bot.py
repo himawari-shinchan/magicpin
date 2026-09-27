@@ -4,11 +4,12 @@ from __future__ import annotations
 import re
 import time
 from datetime import datetime, timezone
+from pathlib import Path
 from threading import RLock
 from typing import Any
 
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel, Field
 
 START_TIME = time.time()
@@ -22,6 +23,7 @@ merchant_auto_reply_counts: dict[str, int] = {}
 _lock = RLock()
 
 app = FastAPI(title="Magicpin Vera Bot", version="1.0.0")
+UI_FILE = Path(__file__).parent / "static" / "index.html"
 
 
 class CtxBody(BaseModel):
@@ -45,6 +47,13 @@ class ReplyBody(BaseModel):
     message: str
     received_at: str
     turn_number: int = 1
+
+
+class PreviewBody(BaseModel):
+    category: dict[str, Any]
+    merchant: dict[str, Any]
+    trigger: dict[str, Any]
+    customer: dict[str, Any] | None = None
 
 
 def _context(scope: str, context_id: str | None) -> dict[str, Any] | None:
@@ -278,6 +287,17 @@ def _compose(category: dict[str, Any], merchant: dict[str, Any], trigger: dict[s
 
     suppression = trigger.get("suppression_key") or trigger.get("id") or f"{kind}:{merchant.get('merchant_id', '')}"
     return {"body": body.strip(), "cta": cta, "send_as": send_as, "suppression_key": suppression, "rationale": rationale}
+
+
+@app.get("/", include_in_schema=False)
+async def dashboard():
+    return FileResponse(UI_FILE, media_type="text/html")
+
+
+@app.post("/v1/preview")
+async def preview(body: PreviewBody):
+    """Return a composer preview without writing context or conversation state."""
+    return {**_compose(body.category, body.merchant, body.trigger, body.customer), "preview_only": True}
 
 
 @app.post("/v1/context")

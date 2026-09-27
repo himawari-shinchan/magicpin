@@ -9,6 +9,8 @@ python -m pip install -r requirements.txt
 python -m uvicorn bot:app --host 127.0.0.1 --port 8080
 ```
 
+Open `http://127.0.0.1:8080/` for the interactive Vera dashboard. It shows live API/context status, links to the API docs, and a preview lab with synthetic challenge scenarios. The preview calls `POST /v1/preview`; it runs the same composer as the challenge API without changing stored contexts or conversation state. The dashboard is included in the Render deployment at the service root.
+
 The application uses in-memory state for the challenge run. `POST /v1/teardown` clears it. The Render and Docker start commands use the platform-provided port.
 
 ## Challenge materials and submission

@@ -1,10 +1,11 @@
 """Live HTTP smoke/integration checks. Start the API first with `python -m uvicorn bot:app --port 8080`."""
 import json
+import os
 import urllib.error
 import urllib.request
 from pathlib import Path
 
-BASE = "http://127.0.0.1:8080"
+BASE = os.environ.get("BOT_URL", "http://127.0.0.1:8080").rstrip("/")
 DATA = Path(__file__).parent / "challenge_bundle" / "expanded"
 
 
@@ -18,6 +19,11 @@ def request(path, payload=None):
         return error.code, json.loads(error.read())
 
 
+def request_text(path):
+    with urllib.request.urlopen(BASE + path, timeout=10) as response:
+        return response.status, response.read().decode("utf-8")
+
+
 def check(condition, message):
     if not condition:
         raise AssertionError(message)
@@ -29,6 +35,8 @@ def read(path):
 
 def main():
     request("/v1/teardown", {})
+    code, html = request_text("/")
+    check(code == 200 and "Message preview lab" in html, "interactive dashboard")
     code, body = request("/v1/healthz")
     check(code == 200 and body["status"] == "ok", "healthz")
     code, body = request("/v1/metadata")
@@ -46,6 +54,13 @@ def main():
     check(counts == {"category": 5, "merchant": 50, "customer": 200, "trigger": 100}, "all context counts")
 
     merchant_ctx = next(x for x in pushed if x["scope"] == "merchant")
+    category_ctx = next(x for x in pushed if x["scope"] == "category" and x["context_id"] == merchant_ctx["payload"].get("category_slug"))
+    trigger_ctx = next(x for x in pushed if x["scope"] == "trigger" and x["payload"].get("merchant_id") == merchant_ctx["context_id"])
+    preview_input = {"category": category_ctx["payload"], "merchant": merchant_ctx["payload"], "trigger": trigger_ctx["payload"]}
+    code, preview = request("/v1/preview", preview_input)
+    check(code == 200 and preview.get("preview_only") and preview.get("body") and preview.get("rationale"), "stateless composer preview")
+    check(request("/v1/healthz")[1]["contexts_loaded"] == counts, "preview does not mutate context")
+
     code, result = request("/v1/context", merchant_ctx)
     check(code == 409 and result["current_version"] == 1, "same-version push rejected")
     code, _ = request("/v1/context", {**merchant_ctx, "version": 0})
@@ -79,7 +94,7 @@ def main():
     code, result = request("/v1/teardown", {})
     check(code == 200 and result["cleared"], "teardown")
     check(request("/v1/healthz")[1]["contexts_loaded"] == {"category": 0, "merchant": 0, "customer": 0, "trigger": 0}, "teardown clears context")
-    print(f"PASS: health/metadata, {len(pushed)} context pushes, version and scope validation, {len(triggers)} trigger candidates ({len(actions)} actions returned), reply flows, teardown.")
+    print(f"PASS: dashboard, health/metadata, {len(pushed)} context pushes, stateless preview, version and scope validation, {len(triggers)} trigger candidates ({len(actions)} actions returned), reply flows, teardown.")
 
 
 if __name__ == "__main__":
