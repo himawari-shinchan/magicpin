@@ -17,4 +17,4 @@ ENV PORT=10000
 EXPOSE $PORT
 
 # Start the FastAPI app with Uvicorn
-CMD ["uvicorn", "bot:app", "--host", "0.0.0.0", "--port", "$PORT"]
+CMD uvicorn bot:app --host 0.0.0.0 --port ${PORT:-10000}
